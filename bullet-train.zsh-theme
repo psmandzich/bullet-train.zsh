@@ -523,7 +523,12 @@ prompt_ruby() {
 
 # ELIXIR
 prompt_elixir() {
-  if command -v elixir > /dev/null 2>&1; then
+  if command -v asdf > /dev/null 2>&1; then
+    version=$(asdf current elixir | sed -n -e 's/[^0-9.]*\([0-9.]*\).*/\1/p')
+    if [[ -n $version ]]; then
+      prompt_segment $BULLETTRAIN_ELIXIR_BG $BULLETTRAIN_ELIXIR_FG $BULLETTRAIN_ELIXIR_PREFIX" $version"
+    fi
+  elif command -v elixir > /dev/null 2>&1; then
     prompt_segment $BULLETTRAIN_ELIXIR_BG $BULLETTRAIN_ELIXIR_FG $BULLETTRAIN_ELIXIR_PREFIX" $(elixir -v | tail -n 1 | awk '{print $2}')"
   fi
 }
