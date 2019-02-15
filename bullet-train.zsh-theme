@@ -580,7 +580,10 @@ prompt_virtualenv() {
 # NVM: Node version manager
 prompt_nvm() {
   local nvm_prompt
-  if type nvm >/dev/null 2>&1; then
+  if command -v asdf > /dev/null 2>&1; then
+    nvm_prompt=$(asdf current nodejs | sed -n -e 's/[^0-9.]*\([0-9.]*\).*/\1/p')
+    [[ "${nvm_prompt}x" == "x" ]] && return
+  elif type nvm >/dev/null 2>&1; then
     nvm_prompt=$(nvm current 2>/dev/null)
     [[ "${nvm_prompt}x" == "x" ]] && return
   elif type node >/dev/null 2>&1; then
